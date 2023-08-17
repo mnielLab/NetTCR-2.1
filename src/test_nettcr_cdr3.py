@@ -13,16 +13,10 @@ import pandas as pd
 import argparse
 
 import torch
-from torch.autograd import Variable
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader, TensorDataset
-
-from nettcr_archs import NetTCR_CDR3, NetTCR_CDR3_singlechain
+from torch.utils.data import TensorDataset
 
 import utils
-import time, random
+import random
 
 # Set random seed
 seed=15
