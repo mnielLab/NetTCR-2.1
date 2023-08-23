@@ -52,4 +52,4 @@ NB! NetTCR-2.1 is a peptide-specific model. Make sure that the pretrained model 
 
 [2] Shen, Wen-Jun, et al. "Towards a mathematical foundation of immunology and amino acid chains." *arXiv preprint arXiv:1205.6031* (2012).
 
-[3] Montemurro, Jessen and Nielsen, "NetTCR-2.1: Lessons and guidance on how to develop models for TCR specificity predictions." *Frontiers in Immunology* Volume 13 (2022).
+[3] Montemurro, Alessandro, et al. "NetTCR-2.1: Lessons and guidance on how to develop models for TCR specificity predictions." *Frontiers in Immunology* Volume 13 (2022).
