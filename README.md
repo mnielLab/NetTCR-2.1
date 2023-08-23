@@ -16,7 +16,7 @@ The redundancy in the dataset was reduced using Hobohm1 algorithm [1], using the
 
 ## Environment setup
 
-First, install the conda environment running `env create -f environment.yml`. This will create an environment called `nettcr_env` containing the necessary dependencies.
+First, install the conda environment running `conda env create -f environment.yml`. This will create a conda environment called `nettcr_env` with the necessary dependencies.
 
 ## Network training
 
