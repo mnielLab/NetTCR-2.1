@@ -31,22 +31,18 @@ torch.backends.cudnn.deterministic = True
 
 
 # Define function to make the dataset
-def make_tensor_ds(df, encoding, pep_max_len=30, cdr_max_len=30, device='cpu'):
-    encoded_pep = torch.tensor(utils.enc_list_bl_max_len(df.peptide, encoding, pep_max_len)/5, dtype=float)
+def make_tensor_ds(df, encoding, cdr_max_len=30, device='cpu'):
     encoded_a3 = torch.tensor(utils.enc_list_bl_max_len(df.A3, encoding, cdr_max_len)/5, dtype=float)
     encoded_b3 = torch.tensor(utils.enc_list_bl_max_len(df.B3, encoding, cdr_max_len)/5, dtype=float)
     targets = torch.tensor(df.binder.values, dtype=float)
 
-    tensor_ds = TensorDataset(encoded_pep.float().to(device), 
-                              encoded_a3.float().to(device),
+    tensor_ds = TensorDataset(encoded_a3.float().to(device),
                               encoded_b3.float().to(device),
                               torch.unsqueeze(targets.float().to(device), 1))
 
     return tensor_ds
 
-def test(args):
-    chain = args.trained_model.split('_')[-1][:-3]
-    
+def test(args):    
     # Make sure peptide, A3, B3 columns are in the data
     x_test = pd.read_csv(args.test_data)
     assert 'A3' in x_test.columns, "Couldn't find A3 in the data"
@@ -59,21 +55,15 @@ def test(args):
     net = torch.jit.load(args.trained_model, map_location=torch.device(device))
     net.to(device)
     
-    pep_test = test_tensor[:][0]
-    a3_test = test_tensor[:][1]
-    b3_test = test_tensor[:][2]
-    y_test = test_tensor[:][3]
+    a3_test = test_tensor[:][0]
+    b3_test = test_tensor[:][1]
     
-    if chain == "ab":
-        pred = net(pep_test, a3_test, b3_test)
-    elif chain == "a":
-        pred = net(pep_test, a3_test)
-    elif chain == "b":
-        pred = net(pep_test, b3_test)
+    pred = net(a3_test, b3_test)
+
         
     x_test['nettcr_prediction'] = pred.cpu().detach().numpy()
     
-    x_test.to_csv(args.outdir+'/nettcr_preds_cdr3_'+chain+'.csv', index=False)
+    x_test.to_csv(args.outdir+'/nettcr_preds_cdr3_ab.csv', index=False)
 
     
 if __name__ == '__main__':
@@ -81,12 +71,8 @@ if __name__ == '__main__':
     parser.add_argument("--test_data")
     parser.add_argument("--trained_model")
     parser.add_argument("--outdir")
-    parser.add_argument("--chain")
     parser.add_argument("--device", default='cpu')
     
     args = parser.parse_args()
-    
-    assert args.chain!=None, "Specify chain"
-    assert args.chain in ["a","b","ab"], "Invalid chain"
-    
+
     test(args)
