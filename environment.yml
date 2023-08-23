@@ -1,0 +1,9 @@
+name: nettcr_env
+channels:
+  - pip
+dependencies:
+  - python=3.11.4
+  - pandas=1.5.3
+  - numpy=1.24.3
+  - pytorch=2.0.1
+

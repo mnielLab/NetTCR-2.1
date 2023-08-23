@@ -14,6 +14,10 @@ The folder `data/`contains the data used to train/validate/test NetTCR-2.1. Th d
 
 The redundancy in the dataset was reduced using Hobohm1 algorithm [1], using the kernel similarity [2] measure and a similarity threshold of 0.95. Thus training, validation and test dataset do not share similar TCR sequences (up to 0.95 similarity threshold).
 
+## Environment setup
+
+First, install the conda environment running `env create -f environment.yml`. This will create an environment called `nettcr_env` containing the necessary dependencies.
+
 ## Network training
 
 The inputs files for the training scripts are the training dataset and the validation data, used for early stopping.
